@@ -11,7 +11,7 @@
 ;	"COSMO2ELLIP-130226-0120" ; tracking on; elliptic filter on
 ;	"COSMO2A-130313-2319" ; fixed telescope; elliptic filter on (long observation)
 ;	"MOONFON121206_0429" ;telescope raster; elliptic filter on
-;	"COSMO3D-130729-0002"; 2.5 h observation
+;	"COSMO3D-130729-0002"; 2.5 h observation (la que he usado siempre; mucho ruido a alta freq)
 ;	"COSMO31FB-131001-1435" ; fixed telescope (axis not disabled)
 
 
@@ -131,7 +131,7 @@ if not keyword_set(silent) then silent=0
 
  if keyword_set(folder) then begin
     if chan le 32 then chan_id=mfi.chan_name[chan-1] else chan_id=strtrim(string(chan),2)
-    path2fits = "/net/trevina/scratch/alba/noise1f/"+folder+'/'
+    path2fits = "/scratch/alba/noise1f/"+folder+'/'
 ;   Observation name
     ind_bin=stregex(folder, '-v')
     if ind_bin ne -1 then obs_name=strmid(folder,0,ind_bin) else obs_name=folder
@@ -413,7 +413,8 @@ pro full_fit, freq_vector, ps_vector, pse_vector, a_in, a_out, sigma, redchisq, 
 
     if not keyword_set(silent) then silent=0
     nbin=n_elements(ps_vector)
-    errors=fltarr(nbin)+1.d0
+;    errors=fltarr(nbin)+1.d0
+    errors=pse_vector
     a=a_in
     yfit=lmfit(freq_vector,ps_vector,a,function_name=fmodelo,chisq=chisq, $
     sigma=sigma,iter=iter,convergence=c, $

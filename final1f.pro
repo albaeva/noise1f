@@ -6,13 +6,14 @@
 ; Output: text file + plot for each horn
 ;**************************************************************************************
 
-@fit_ps_logps3
+@fit_ps_logps2
 
+; @fit_ps_logps3
 ; @fit_ps_logps_fixedalpha
 
 pro final1f, folder, savepng=savepng
 
-fmodelo='fmodelo0'
+fmodelo='fmodelo1'
 outname=folder+'_'+fmodelo
 ; outname=folder
 
@@ -43,7 +44,7 @@ FOR horn=1,4 DO BEGIN
    ch_end=ihorn*8+7
 
 
-  window, 19, xsize=800, ysize=900, tit=folder
+  window, 19, xsize=1200, ysize=1000, tit=folder
   !p.multi=[0,2,4]
 
   for j=ch_st,ch_end do begin
@@ -53,14 +54,14 @@ FOR horn=1,4 DO BEGIN
   print, " "
   print," >> Working on channel", chan
 
-          fit_ps_logps3, folder=folder, chan=chan, $
+          fit_ps_logps2, folder=folder, chan=chan, $
 	  doplot=doplot, dopng=dopng, errors_mc=errors_mc, silent=silent, $
 	  fmodelo=fmodelo, /peakrm, a_in, a_out, sigma, redchisq, c, sigma_mc
  
 	  printf, 23, mfi.chan_name[chan-1], c, redchisq, a_out[0], sigma[0], $
 							 a_out[1], sigma[1], $
-; 							 a_out[2], sigma[2], $
-; 							 a_out[3], sigma[3], $
+ 							 a_out[2], sigma[2], $
+                                                        ;a_out[3], sigma[3], $
 							 FORMAT='(A5, I3, F6.1, 4F8.2, 4F7.3)'
 
   endfor
@@ -108,7 +109,7 @@ for j=0,7 do begin
 	  printf, 23, chan, c, redchisq, a_out[0], sigma[0], $
 			       a_out[1], sigma[1], $
 			       a_out[2], sigma[2], $
-; 			       a_out[3], sigma[3], $
+;			       a_out[3], sigma[3], $
 			       FORMAT='(A5, I3, F6.1, 4F8.2, 4F7.3)'
 
 endfor
